@@ -1,14 +1,15 @@
 import React, {ChangeEvent, useState} from 'react';
-import {log} from "util";
+import {TextField} from "@mui/material";
 
 type InputComponentsPropsType = {
     type: string
     initialValue: number
+    label: string
     callBack: (value: number) => void
 
 }
 
-const InputComponent: React.FC<InputComponentsPropsType> = ( {type, initialValue, callBack } ) => {
+const InputComponent: React.FC<InputComponentsPropsType> = ( {type, initialValue, callBack, label } ) => {
 
     let [value, setValue] = useState<number>(initialValue);
 
@@ -22,9 +23,9 @@ const InputComponent: React.FC<InputComponentsPropsType> = ( {type, initialValue
 
     return (
         <>
-            <input type={type} value={value} onChange={onChangeHandler}
-                   onBlur={onBlueHandler}
-            />
+            <TextField id="outlined-basic" label={label} variant="outlined"
+                       type={type} value={value} onChange={onChangeHandler}
+                       onBlur={onBlueHandler} size={"small"}/>
         </>
     );
 }

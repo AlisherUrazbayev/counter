@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {SettingsType} from "../../App";
-import {log} from "util";
 import ButtonComponent from "../reusableComponents/ButtonComponent";
+import {Paper} from "@mui/material";
 
 type CounterPagePropsType = {
     number: number
@@ -11,7 +10,16 @@ type CounterPagePropsType = {
 
 const CounterPage: React.FC<CounterPagePropsType> = (props) => {
 
-    let [number, setNumber] = useState<number>(props.number)
+    let [number, setNumber] = useState<number>(props.number);
+
+    useEffect(() => {
+        let stringValue = localStorage.getItem("counterValue");
+        if(stringValue) setNumber(JSON.parse(stringValue));
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem("counterValue", JSON.stringify(number));
+    }, [number]);
 
     const onIncrementHandler = () => {
         number !== props.maxValue && setNumber(number + 1);
@@ -22,11 +30,14 @@ const CounterPage: React.FC<CounterPagePropsType> = (props) => {
     }
 
     return (
-        <div>
+        <Paper style={{ minWidth: '200px', minHeight: '200px', display: "flex",
+            flexDirection: 'column', justifyContent: 'space-evenly'}}>
             <div>{number}</div>
-            <div><ButtonComponent name="Inc" callBack={onIncrementHandler}  /></div>
-            <div><ButtonComponent name="Reset" callBack={onResetHandler}  /></div>
-        </div>
+            <div>
+                <ButtonComponent name="Inc" callBack={onIncrementHandler}/>
+                <ButtonComponent name="Reset" callBack={onResetHandler}/>
+            </div>
+        </Paper>
     );
 };
 

@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 import CounterPage from "./components/counterPage/CounterPage";
 import CounterSettings from "./components/CounterSettings/CounterSettings";
+import {Grid} from "@mui/material";
 
 export type SettingsType = {
     maxValue: number
@@ -16,25 +16,20 @@ function App() {
         startValue: 1,
     })
 
-    let [number, setNumber] = useState<number>(settings.startValue);
-
-    useEffect(() => {
-        console.log("A")
-    })
-
     const updateSettings = (newSettings: SettingsType) => {
         setSettings(newSettings);
     }
 
-    const increment = () => {
-        setSettings({...settings});
-    }
-
-
     return (
         <div className="App">
-
-            <CounterSettings settings={settings} updateSettings={updateSettings}/>
+            <Grid container spacing={12} justifyContent={"center"} alignItems="center">
+                <Grid item>
+                    <CounterSettings settings={settings} updateSettings={updateSettings}/>
+                </Grid>
+                <Grid item>
+                    <CounterPage number={settings.startValue} maxValue={settings.maxValue} />
+                </Grid>
+            </Grid>
         </div>
     );
 }

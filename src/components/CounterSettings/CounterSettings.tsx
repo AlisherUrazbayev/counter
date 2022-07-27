@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import InputComponent from "../reusableComponents/InputComponent";
 import {SettingsType} from "../../App";
 import ButtonComponent from "../reusableComponents/ButtonComponent";
-import {log} from "util";
+import {Paper} from "@mui/material";
 
 type CounterSettingsPropsType = {
     settings: SettingsType
@@ -25,36 +25,28 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ( { settings, update
         updateSettings(localSettings);
     }
 
-    const pnIncrementHandler = () => {
-        
-    }
-
     return (
-        <div>
-            <div>
+        <Paper style={{minWidth: '200px', minHeight: '200px'}}>
+            <div style={{margin: '20px'}}>
                 <span>Max value: </span>
                 <InputComponent type={"number"}
                                 initialValue={localSettings.maxValue}
                                 callBack={setMaxValue}
+                                label={"Max value"}
                 />
             </div>
-            <div>
+            <div style={{margin: '20px'}}>
                 <span>Start value:</span>
                 <InputComponent type={"number"}
                                 initialValue={localSettings.startValue}
                                 callBack={setStartValue}
+                                label={"Starting value"}
                 />
             </div>
             <div>
                 <ButtonComponent name={"Set"} callBack={onClickUpdateSettings} />
             </div>
-            <div>
-                <div>{localSettings.startValue}</div>
-                <div>
-                    <ButtonComponent name={"Inc"} callBack={} />
-                </div>
-            </div>
-        </div>
+        </Paper>
     );
 };
 

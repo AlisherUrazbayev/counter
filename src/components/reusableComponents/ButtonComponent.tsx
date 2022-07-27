@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "@mui/material";
 
 type ButtonComponentPropsType = {
     name: string
@@ -12,9 +13,10 @@ const ButtonComponent: React.FC<ButtonComponentPropsType> = ( {name, callBack} )
     }
 
     return (
-        <div>
-            <button onClick={onClickHandler}>{name}</button>
-        </div>
+            <Button variant={"contained"} onClick={onClickHandler}
+                    style={{marginLeft: '10px'}}>
+                {name}
+            </Button>
     );
 }
 
