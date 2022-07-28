@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InputComponent from "../reusableComponents/InputComponent";
 import {SettingsType} from "../../App";
 import ButtonComponent from "../reusableComponents/ButtonComponent";
@@ -12,6 +12,15 @@ type CounterSettingsPropsType = {
 const CounterSettings: React.FC<CounterSettingsPropsType> = ( { settings, updateSettings} ) => {
 
     let [localSettings, setLocalSettings] = useState<SettingsType>(settings);
+    let [disabled, setDisabled] = useState<boolean>(false);
+
+    useEffect(() => {
+        if(localSettings.maxValue <= 0 ||  localSettings.startValue < 1 || localSettings.maxValue <= localSettings.startValue) {
+            setDisabled(true);
+        } else {
+            setDisabled(false);
+        }
+    }, [localSettings.maxValue, localSettings.startValue])
 
     const setMaxValue = (maxValue: number) => {
         setLocalSettings({...localSettings, maxValue: maxValue});
@@ -33,6 +42,7 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ( { settings, update
                                 initialValue={localSettings.maxValue}
                                 callBack={setMaxValue}
                                 label={"Max value"}
+                                validationNumber={1}
                 />
             </div>
             <div style={{margin: '20px'}}>
@@ -41,10 +51,11 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ( { settings, update
                                 initialValue={localSettings.startValue}
                                 callBack={setStartValue}
                                 label={"Starting value"}
+                                validationNumber={0}
                 />
             </div>
             <div>
-                <ButtonComponent name={"Set"} callBack={onClickUpdateSettings} />
+                <ButtonComponent disabled={disabled} name={"Set"} callBack={onClickUpdateSettings} />
             </div>
         </Paper>
     );

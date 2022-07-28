@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import CounterPage from "./components/counterPage/CounterPage";
 import CounterSettings from "./components/CounterSettings/CounterSettings";
@@ -15,6 +15,26 @@ function App() {
         maxValue: 4,
         startValue: 1,
     })
+
+    useEffect(() => {
+        setSettingsToLocalStorage();
+    },[settings])
+
+    useEffect(() => {
+      const maxValue = localStorage.getItem("maxValue");
+      const startValue = localStorage.getItem("startValue");
+      if(maxValue && startValue) {
+          setSettings({
+              maxValue: JSON.parse(maxValue),
+              startValue: JSON.parse(startValue)
+          })
+      }
+    },[])
+
+    const setSettingsToLocalStorage = () => {
+        localStorage.setItem("maxValue", JSON.stringify(settings.maxValue));
+        localStorage.setItem("startValue", JSON.stringify(settings.startValue));
+    }
 
     const updateSettings = (newSettings: SettingsType) => {
         setSettings(newSettings);
